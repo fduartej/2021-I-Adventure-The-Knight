@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
     public bool isAttacking = false;
     public float jumpForce = 400f;
+    public bool isColliderWithVitals = false;
+
+    [SerializeField]
+    CounterManager counterManager;
 
     // Start is called before the first frame update
     void Start()
@@ -76,6 +80,11 @@ public class PlayerController : MonoBehaviour
         if(otherObject.collider.tag == "Floor" ){
             isGrounded = true; 
         }
+        if(otherObject.collider.tag == "Vitals" ){
+            isColliderWithVitals = true;
+            counterManager.addScore();
+            Destroy(otherObject.gameObject); 
+        }        
     }
 
     private void OnCollisionExit2D(Collision2D otherObject) {
@@ -83,5 +92,9 @@ public class PlayerController : MonoBehaviour
         if(otherObject.collider.tag == "Floor" ){
             isGrounded = false; 
         }
+        if(otherObject.collider.tag == "Vitals" ){
+            isColliderWithVitals = false;
+        }
+
     }
 }
